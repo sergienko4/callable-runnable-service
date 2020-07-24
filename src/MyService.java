@@ -1,8 +1,7 @@
 import java.util.concurrent.*;
-import java.util.function.Function;
 
 
-public class MyService<V extends Runnable> {
+public class MyService<V> {
     //    protected BlockingQueue<V> taskQueue;
 //    protected Thread consumerThread;
     private TaskWrapper<V> task;
@@ -10,12 +9,12 @@ public class MyService<V extends Runnable> {
     private Future<V> future;
 
     public MyService(Runnable runnable, TaskType type) {
-        this.task = new TaskWrapper<V>(runnable, type);
+        this.task = new TaskWrapper<>(runnable, type);
         this.StartAndRunTask();
     }
 
     public MyService(Callable<V> callable, TaskType type) {
-        this.task = new TaskWrapper<V>(callable, type);
+        this.task = new TaskWrapper<>(callable, type);
         this.StartAndRunTask();
     }
 
@@ -26,32 +25,19 @@ public class MyService<V extends Runnable> {
     }
 
     public V get() throws ExecutionException, InterruptedException {
-        return this.future.get();
-        //return this.task.get();
+        return this.task.get();
     }
 
     public V get(long timeout, TimeUnit unit) throws InterruptedException, ExecutionException, TimeoutException {
-        return this.future.get(timeout, unit);
-//        return this.task.get(timeout, unit);
+        return this.task.get(timeout, unit);
     }
 
     public boolean isDone() {
         return this.future.isDone();
-//        return this.task.isDone();
     }
 
-    public void cancel(boolean mayInterruptIfRunning) throws InterruptedException {
+    public void cancel(boolean mayInterruptIfRunning) {
         this.future.cancel(mayInterruptIfRunning);
-       /* if (mayInterruptIfRunning) {
-            isStopNow = true;
-            this.consumerThread.interrupt();
-
-        } else {
-            // wait till it completes the running
-            if (this.consumerThread.isAlive()) {
-                this.consumerThread.join();
-            }
-        }*/
     }
 
     public boolean isCancelled() {
@@ -64,5 +50,10 @@ public class MyService<V extends Runnable> {
                 throw new NullPointerException("arg is null");
             }
         }
+    }
+
+    @Override
+    public String toString() {
+        return task.toString();
     }
 }
