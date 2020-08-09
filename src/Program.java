@@ -1,3 +1,6 @@
+import callableRunnable.MyService;
+import callableRunnable.TaskType;
+
 import java.util.Random;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
@@ -17,6 +20,7 @@ public class Program {
         while (!ser.isDone()) {
             System.out.println("Task #1 is not done");
         }
+        System.out.println("Task #1 is done");
 
         while (!ser1.isDone()) {
             System.out.println("Task #2 is not done");

@@ -1,10 +1,12 @@
+package callableRunnable;
+
 public enum TaskType {
     IO(1),
     COMPUTATIONAL(2),
     UNKNOWN(3);
     private int priority;
 
-    private TaskType(int priority) {
+    TaskType(int priority) {
         this.priority = priority;
     }
 

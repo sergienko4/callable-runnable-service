@@ -1,3 +1,5 @@
+package callableRunnable;
+
 import java.util.concurrent.*;
 
 
@@ -8,9 +10,10 @@ public class MyService<V> {
     private ExecutorService executorService;
     private Future<V> future;
 
-    public MyService(Runnable runnable, TaskType type) {
-        this.task = new TaskWrapper<>(runnable, type);
+    public MyService(Runnable runnable,  TaskType type) {
+        this.task = new TaskWrapper<>(runnable, null , type);
         this.StartAndRunTask();
+        this.task.run();
     }
 
     public MyService(Callable<V> callable, TaskType type) {
@@ -18,9 +21,22 @@ public class MyService<V> {
         this.StartAndRunTask();
     }
 
+
+//    public <V> Future<V> apply(final Runnable runnable,final V v, BiFunction<Runnable,V,RunnableFuture<V>> runnableTFunction) throws InterruptedException {
+//        final RunnableFuture<V> runnableFuture = runnableTFunction.apply(runnable,v);
+//        this.myApply(runnableFuture);
+//        return runnableFuture;
+//    }
+//
+//    public<V> Future<V> apply(final Callable<V> callable,Function<Callable<V>,RunnableFuture<V>> runnableTFunction) throws InterruptedException {
+//        final RunnableFuture<V> runnableFuture = runnableTFunction.apply(callable);
+//        this.myApply(runnableFuture);
+//        return runnableFuture;
+//    }
+
     private void StartAndRunTask() {
         executorService = Executors.newSingleThreadExecutor();
-        this.future = (Future<V>) executorService.submit(this.task);
+        executorService.execute(this.task);
         this.executorService.shutdown();
     }
 
@@ -33,15 +49,15 @@ public class MyService<V> {
     }
 
     public boolean isDone() {
-        return this.future.isDone();
+        return this.task.isDone();
     }
 
     public void cancel(boolean mayInterruptIfRunning) {
-        this.future.cancel(mayInterruptIfRunning);
+        this.task.cancel(mayInterruptIfRunning);
     }
 
     public boolean isCancelled() {
-        return this.future.isCancelled();
+        return this.task.isCancelled();
     }
 
     public static void throwIfNull(Object... arguments) throws NullPointerException {
