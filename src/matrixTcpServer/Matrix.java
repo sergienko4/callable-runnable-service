@@ -15,13 +15,14 @@ public class Matrix extends MatrixBase {
 
     public static void main(String[] args) {
         int[][] source = {
-                {1, 0, 1},
+                {0, 0, 1},
                 {0, 0, 0},
                 {1, 0, 1}
         };
         MatrixBase matrix = new CrossMatrix(source);
         matrix.printMatrix();
-        System.out.println(matrix.getAdjacentIndices(new Index(1, 1)));
-        System.out.println(matrix.getReachables(new Index(1, 1)));
+        Index index = new Index(2, 0);
+        System.out.println(matrix.getAdjacentIndices(index));
+        System.out.println(matrix.getReachables(index));
     }
 }
