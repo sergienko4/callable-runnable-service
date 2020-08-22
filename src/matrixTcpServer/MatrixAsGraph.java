@@ -41,15 +41,43 @@ public class MatrixAsGraph implements Traversable<Index> {
                 .map(neighbor -> new GraphNode<>(neighbor, s)).collect(Collectors.toList());
     }
 
-    public void search(Index target, boolean allPaths) {
-        Search search = new Search(this);
-        search.search(this.getIndex(), target, allPaths);
-        search.printPath(allPaths);
+    public void search(Index target, boolean firstPathOnly) {
+        search(this.index, target, firstPathOnly);
     }
 
-    public void search(Index start, Index target, boolean allPaths) {
+    public void search(Index start, Index target, boolean firstPathOnly) {
         Search search = new Search(this);
-        search.search(start, target, allPaths);
-        search.printPath(allPaths);
+        search.search(start, target, firstPathOnly);
+
+        search.printPath(firstPathOnly);
+
     }
+
+    public void searchShortest(Index target) {
+        this.searchShortest(this.index, target);
+    }
+
+    public void searchShortest(Index start, Index target) {
+        Search search = new Search(this);
+        search.search(start, target, false);
+        search.printAllShortest();
+    }
+
+
+//    public static void main(String[] args) {
+//
+//        int[][] source = {
+//                {1, 1, 1, 1, 1},
+//                {1, 0, 0, 0, 1},
+//                {1, 1, 1, 1, 1}
+//        };
+//        MatrixAsGraph matrix = new MatrixAsGraph(source, new Index(0, 0));
+//        Collection<GraphNode<Index>> list = matrix.getReachableNodes(matrix.getOrigin());
+//        Index target = new Index(2, 4);
+//        matrix.search(target, false);
+//
+//        matrix.searchShortest(target);
+
+
 }
+

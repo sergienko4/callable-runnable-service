@@ -5,6 +5,7 @@ import matrixTcpServer.MatrixAsGraph;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class Search<T> {
 
@@ -17,15 +18,57 @@ public class Search<T> {
 
 
     public Search(MatrixAsGraph graph) {
-
-        this.map = new HashMap<>();
-        this.paths = new ArrayList<LinkedList<Index>>();
         this.graph = graph;
 
         initVertex();
     }
 
+    public void search(Index source, Index target, boolean firstPathOnly) {
+        this.source = source;
+        this.target = target;
+        LinkedList<Index> visited = new LinkedList<>();
+        visited.add(this.source);
+        depthFirst(visited, firstPathOnly);
+
+        // sort from the shorter to the longest
+        this.paths.sort((o1, o2) -> {
+            return o1.size() - o2.size();
+        });
+    }
+
+    public void printAllShortest() {
+        if (this.paths.size() < 1) {
+            System.out.println("No path available ");
+        }
+
+        int min = this.paths.get(0).size();
+        List<LinkedList<Index>> shortest = this.paths.stream().filter(x -> x.size() == min).collect(Collectors.toList());
+
+        // get all shortest paths
+        for (LinkedList<Index> item : shortest) {
+            printPath(item);
+        }
+    }
+
+    public void printPath(boolean firstPathOnly) {
+        // check if has any paths
+        if (this.paths.size() < 1) {
+            System.out.println("No path available ");
+        } else {
+            if (firstPathOnly == false) {
+                for (LinkedList<Index> item : this.paths) {
+                    printPath(item);
+                }
+            } else {
+                printPath(this.paths.get(0));
+            }
+        }
+    }
+
     private void initVertex() {
+        this.map = new HashMap<>();
+        this.paths = new ArrayList<LinkedList<Index>>();
+
         for (int i = 0; i < graph.matrix.primitiveMatrix.length; i++) {
             for (int j = 0; j < this.graph.matrix.primitiveMatrix[i].length; j++) {
                 Index index = new Index(i, j);
@@ -41,51 +84,7 @@ public class Search<T> {
         }
     }
 
-    public Index getSource() {
-        return source;
-    }
-
-    public void setSource(Index source) {
-        this.source = source;
-    }
-
-    public Index getTarget() {
-        return target;
-    }
-
-    public void setTarget(Index target) {
-        this.target = target;
-    }
-
-    public void search(Index source, Index target, boolean allPaths) {
-        this.source = source;
-        this.target = target;
-        LinkedList<Index> visited = new LinkedList<>();
-        visited.add(this.source);
-        depthFirst(visited, allPaths);
-
-        // sort from the shorter to the longest
-        this.paths.sort((o1, o2) -> {
-            return o1.size() - o2.size();
-        });
-    }
-
-    public void printPath(boolean allPath) {
-        // check if has any paths
-        if (this.paths.size() < 1) {
-            System.out.println("No path available ");
-        } else {
-            if (allPath) {
-                for (LinkedList<Index> item : this.paths) {
-                    printPath(item);
-                }
-            } else {
-                printPath(this.paths.get(0));
-            }
-        }
-    }
-
-    private void depthFirst(@NotNull LinkedList<Index> visited, boolean allPaths) {
+    private void depthFirst(@NotNull LinkedList<Index> visited, boolean firstPathOnly) {
         LinkedList<Index> nodes = adjacentNodes(visited.getLast());
         for (Index node : nodes) {
             if (visited.contains(node)) {
@@ -96,7 +95,7 @@ public class Search<T> {
                 savePath(visited);
                 visited.removeLast();
                 // stop search
-                if (allPaths == false)
+                if (firstPathOnly == true)
                     return;
                 break;
             }
@@ -106,7 +105,7 @@ public class Search<T> {
                 continue;
             }
             visited.addLast(node);
-            depthFirst(visited, allPaths);
+            depthFirst(visited, firstPathOnly);
             visited.removeLast();
         }
     }
