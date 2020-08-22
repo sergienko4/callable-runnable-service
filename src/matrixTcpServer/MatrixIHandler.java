@@ -41,6 +41,12 @@ public class MatrixIHandler implements IHandler {
                     this.matrix.printMatrix();
                     break;
                 }
+                case "cross-matrix": {
+                    int[][] primitiveMatrix = (int[][]) objectInputStream.readObject();
+                    this.matrix = new CrossMatrix(primitiveMatrix);
+                    this.matrix.printMatrix();
+                    break;
+                }
                 case "start Index": {
                     this.start = (Index) objectInputStream.readObject();
                     break;

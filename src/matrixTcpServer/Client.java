@@ -21,7 +21,7 @@ public class Client {
                 {1, 0, 1},
                 {1, 0, 1}
         };
-        toServer.writeObject("matrix");
+        toServer.writeObject("cross-matrix");
         toServer.writeObject(source);
 
         // sending #3 index for getAdjacentIndices

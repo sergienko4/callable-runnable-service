@@ -5,7 +5,7 @@ import java.io.Serializable;
 import java.util.Objects;
 
 public class Index implements Serializable {
-    int row, column;
+    public int row, column;
 
     // Constructor
     public Index(int oRow, int oColumn) {
