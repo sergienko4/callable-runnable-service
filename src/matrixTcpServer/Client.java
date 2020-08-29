@@ -17,16 +17,16 @@ public class Client {
 
         // sending #1 matrix
         int[][] source = {
-                {0, 1, 0},
-                {1, 0, 1},
-                {1, 0, 1}
+                {1, 1, 0, 1, 1},
+                {0, 0, 0, 1, 1},
+                {1, 1, 0, 1, 1}
         };
         toServer.writeObject("cross-matrix");
         toServer.writeObject(source);
 
         // sending #3 index for getAdjacentIndices
         toServer.writeObject("AdjacentIndices");
-        toServer.writeObject(new Index(1, 1));
+        toServer.writeObject(new Index(0, 0));
         // receiving #1 getAdjacentIndices
         Collection<Index> AdjacentIndices =
                 new ArrayList<Index>((Collection<Index>) fromServer.readObject());

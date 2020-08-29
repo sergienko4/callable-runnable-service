@@ -27,6 +27,15 @@ public class Index implements Serializable {
                 column == index.column;
     }
 
+//    public int compareTo(Index index, boolean byRow) {
+//        if (byRow) {
+//            return this.row - index.row;
+//        } else {
+//            return this.column - index.column;
+//        }
+//    }
+
+
     @Override
     public int hashCode() {
         return Objects.hash(row, column);

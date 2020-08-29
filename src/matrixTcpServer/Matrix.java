@@ -44,6 +44,7 @@ public class Matrix implements Serializable{
     }
 
     public Collection<Index> getReachables(Index index) {
+
         ArrayList<Index> filteredIndices = new ArrayList<>();
         this.getAdjacentIndices(index).stream().filter(i -> getValue(i) == 1)
                 .map(neighbor -> filteredIndices.add(neighbor)).collect(Collectors.toList());

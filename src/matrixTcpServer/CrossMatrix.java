@@ -3,6 +3,7 @@ package matrixTcpServer;
 import java.util.*;
 
 public class CrossMatrix extends Matrix {
+
     public CrossMatrix(int[][] oArray) {
         super(oArray);
     }

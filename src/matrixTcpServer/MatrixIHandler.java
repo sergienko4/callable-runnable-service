@@ -8,6 +8,7 @@ public class MatrixIHandler implements IHandler {
 
     private Matrix matrix;
     private Index start, end;
+    private Battleship battleShip;
 
     public MatrixIHandler() {
         this.resetParams();
@@ -38,12 +39,19 @@ public class MatrixIHandler implements IHandler {
                 case "matrix": {
                     int[][] primitiveMatrix = (int[][]) objectInputStream.readObject();
                     this.matrix = new Matrix(primitiveMatrix);
+                    this.battleShip = new Battleship(primitiveMatrix);
                     this.matrix.printMatrix();
                     break;
                 }
                 case "cross-matrix": {
                     int[][] primitiveMatrix = (int[][]) objectInputStream.readObject();
                     this.matrix = new CrossMatrix(primitiveMatrix);
+                    this.matrix.printMatrix();
+                    break;
+                }
+                case "battleship": {
+                    int[][] primitiveMatrix = (int[][]) objectInputStream.readObject();
+                    this.battleShip = new Battleship(primitiveMatrix);
                     this.matrix.printMatrix();
                     break;
                 }
