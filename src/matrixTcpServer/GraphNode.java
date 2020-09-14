@@ -12,18 +12,14 @@ public class GraphNode<T> implements Serializable {
 
     @Nullable
     private T data;
-    @Nullable private GraphNode<T> parent;
-
-
-    public GraphNode() {
-        this(null);
-    }
+    @Nullable
+    private GraphNode<T> parent;
 
     public GraphNode(@Nullable final T data) {
-        this(data,null);
+        this(data, null);
     }
 
-    public GraphNode(@Nullable final T data,@Nullable final GraphNode<T> parent) {
+    public GraphNode(@Nullable final T data, @Nullable final GraphNode<T> parent) {
         this.data = data;
         this.parent = parent;
     }

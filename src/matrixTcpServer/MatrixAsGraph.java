@@ -35,7 +35,7 @@ public class MatrixAsGraph implements Traversable<Index> {
     @NotNull
     @Override
     public GraphNode<Index> getOrigin() throws NullPointerException {
-//        if (this.index == null) throw new NullPointerException("initIndex is not initialized");
+        if (this.index == null) throw new NullPointerException("initIndex is not initialized");
         return new GraphNode<>(this.index);
     }
 
@@ -46,30 +46,17 @@ public class MatrixAsGraph implements Traversable<Index> {
                 .map(neighbor -> new GraphNode<>(neighbor, s)).collect(Collectors.toList());
     }
 
-    public void search(Index target) {
-        this.search(target, false);
-    }
-
-    public void search(Index target, boolean firstPathOnly) {
-        search(this.index, target, firstPathOnly);
-        printPath(firstPathOnly);
-    }
-
-    public void searchShortest(Index target) {
-        this.searchShortest(this.index, target);
-    }
-
     public void searchShortest(Index start, Index target) {
         search(start, target, false);
         printAllShortest();
     }
-
 
     public void printPath(boolean firstPathOnly) {
         // check if has any paths
         if (this.paths.size() < 1) {
             System.out.println("No path available ");
         } else {
+            System.out.println("Result:");
             if (firstPathOnly == false) {
                 for (LinkedList<Index> item : this.paths) {
                     printPath(item);
@@ -91,6 +78,7 @@ public class MatrixAsGraph implements Traversable<Index> {
     public void printAllShortest() {
         if (this.paths.size() < 1) {
             System.out.println("No path available ");
+            return;
         }
 
         int min = this.paths.get(0).size();
@@ -108,15 +96,6 @@ public class MatrixAsGraph implements Traversable<Index> {
             return new LinkedList();
         }
         return new LinkedList<>(adjacent);
-    }
-
-
-    private boolean isConnected(Index node1, Index node2) {
-        Set adjacent = map.get(node1);
-        if (adjacent == null) {
-            return false;
-        }
-        return adjacent.contains(node2);
     }
 
     private void initVertex() {
@@ -172,7 +151,6 @@ public class MatrixAsGraph implements Traversable<Index> {
         this.paths.add(cloned);
     }
 
-
     private void addTwoWayVertex(Index node1, Index node2) {
         addEdge(node1, node2);
         addEdge(node2, node1);
@@ -185,6 +163,11 @@ public class MatrixAsGraph implements Traversable<Index> {
             map.put(node1, adjacent);
         }
         adjacent.add(node2);
+    }
+
+    public void search(Index source, Index target) {
+        this.search(source, target, false);
+        printPath(false);
     }
 
     private void search(Index source, Index target, boolean firstPathOnly) {
@@ -201,38 +184,5 @@ public class MatrixAsGraph implements Traversable<Index> {
             return o1.size() - o2.size();
         });
     }
-
-    public static void main(String[] args) {
-
-        int[][] source = {
-                {1, 1, 0, 1, 1},
-                {0, 0, 0, 1, 1},
-                {1, 1, 0, 1, 1}
-        };
-
-        Battleship game = new Battleship(source);
-//        CrossMatrix c = new CrossMatrix(source);
-//        Collection<Index> g = c.getReachables(new Index(1, 3));
-////        System.out.println(g.toString());
-//        MatrixAsGraph matrix = new MatrixAsGraph(c, new Index(0, 0));
-//
-//
-//        Collection<GraphNode<Index>> list = matrix.getReachableNodes(matrix.getOrigin());
-//        Index target = new Index(2, 4);
-//
-//        System.out.printf("all\n");
-//        matrix.search(target);
-//
-//
-//        System.out.printf("first\n");
-//        matrix.search(target, true);
-//
-//        System.out.printf("shortest\n");
-//        matrix.searchShortest(target);
-
-//        matrix.validation();
-    }
-
-
 }
 

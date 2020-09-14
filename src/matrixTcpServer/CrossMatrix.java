@@ -2,6 +2,7 @@ package matrixTcpServer;
 
 import java.util.*;
 
+
 public class CrossMatrix extends Matrix {
 
     public CrossMatrix(int[][] oArray) {
@@ -50,32 +51,4 @@ public class CrossMatrix extends Matrix {
 
         return list;
     }
-
-
-
-//    public void getPath(Index source, Index target) {
-//
-//        var reachables = getReachables(source);
-//        List<HashSet<Index>> indexList = Collections.synchronizedList(new ArrayList<>());
-//        HashSet<Index> seenIndexes = new HashSet<>();
-//
-////        Traverse<Index> algorithm = new TraverseLogic<>();
-//        final int[][] matrix = this.primitiveMatrix;
-//        CrossMatrix graph = new CrossMatrix(matrix);
-//        for (int i = 0; i < matrix.length; i++) {
-//            for (int j = 0; j < matrix[0].length; j++) {
-//                final Index index = new Index(i, j);
-//                if (matrix[index.row][index.column] == 1 && !seenIndexes.contains(index)) {
-////                    graph.setIndex(index);
-//                    final AbstractList<Index> list = algorithm.traverse(graph);
-//
-//                    HashSet<Index> hashSet = new HashSet<>(list);
-//                    indexList.add(hashSet);
-//                    seenIndexes.addAll(hashSet);
-//                }
-//            }
-//        }
-//
-//    }
-
 }
